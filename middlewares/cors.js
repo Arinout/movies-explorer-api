@@ -1,7 +1,7 @@
 const allowedCors = [
   'http://localhost:3000',
-  'arinout.movies.nomoredomains.work',
-  'api.arinout.movies.nomoredomains.work',
+  'https://arinout.movies.nomoredomains.work',
+  'https://api.arinout.movies.nomoredomains.work',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';

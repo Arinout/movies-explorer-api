@@ -6,7 +6,7 @@ const ConflictError = require('../errors/conflict-error');
 
 const User = require('../models/user');
 
-const JWT_SECRET_DEV = require('../utils/constants');
+const { JWT_SECRET_DEV } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -37,7 +37,7 @@ module.exports.getUserProfile = (req, res, next) => {
 module.exports.updateUserProfile = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(
-    req.user_id,
+    req.user._id,
     { name, email },
     {
       new: true,
@@ -70,7 +70,6 @@ module.exports.createUser = (req, res, next) => {
       name: req.body.name,
     }))
     .then((user) => res.status(200).send({
-      _id: user._id,
       email: user.email,
       name: user.name,
     }))

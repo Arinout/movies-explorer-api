@@ -4,7 +4,7 @@ const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.status(200).send(movies))
     .catch(next);
 };
@@ -37,22 +37,19 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
-
-  Movie.findById(movieId)
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Карточка с указанным id не найдена');
+  Movie.findByIdAndRemove(req.params._id)
+    .then((movie) => {
+      if (!movie) {
+        throw new NotFoundError('Фильм не найден');
       }
-      if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) {
-        throw new ForbiddenError('Необходимы права для удаления карточки');
+      if (JSON.stringify(movie.owner) !== JSON.stringify(req.user._id)) {
+        throw new ForbiddenError('Необходимы права для удаления фильма');
       }
-      return Movie.remove(card);
     })
     .then(() => res.status(200).send({ message: 'успешно' }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Передан несуществующий _id карточки.'));
+        next(new BadRequestError('Передан несуществующий _id фильма.'));
         return;
       }
       next(err);
