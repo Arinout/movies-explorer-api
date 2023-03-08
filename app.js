@@ -11,9 +11,7 @@ const cors = require('./middlewares/cors');
 const router = require('./routes/index');
 const { centralizedError } = require('./middlewares/centralizedError');
 
-const { PORT = 3000 } = process.env;
-
-const { DB_ADRESS_DEV } = require('./utils/constants');
+const { PORT, DB_ADRESS_DEV } = require('./utils/constants');
 
 mongoose.connect(DB_ADRESS_DEV, {
   useNewUrlParser: true,
