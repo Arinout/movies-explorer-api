@@ -11,11 +11,11 @@ const cors = require('./middlewares/cors');
 const router = require('./routes/index');
 const { centralizedError } = require('./middlewares/centralizedError');
 
-const { NODE_ENV, DB_ADDRESS = 'mongodb://localhost:27017/bitfilmsdb', PORT = 3000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const { DB_ADRESS_DEV } = require('./utils/constants');
 
-mongoose.connect(NODE_ENV === 'production' ? DB_ADDRESS : DB_ADRESS_DEV, {
+mongoose.connect(DB_ADRESS_DEV, {
   useNewUrlParser: true,
 });
 
